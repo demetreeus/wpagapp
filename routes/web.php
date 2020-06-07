@@ -31,3 +31,17 @@ Auth::routes(['verify' => true]);
 Route::get('/home', 'HomeController@index')->middleware('verified');
 
 Route::resource('players', 'PlayerController');
+
+Route::resource('positions', 'PositionController');
+
+Route::resource('languages', 'LanguageController');
+
+Route::resource('nationalities', 'NationalityController');
+
+Route::resource('playerPositions', 'PlayerPositionController');
+
+Route::resource('playerLanguages', 'PlayerLanguageController');
+
+Route::resource('clubs', 'ClubController');
+
+Route::resource('countries', 'CountryController');

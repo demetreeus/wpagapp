@@ -16,12 +16,12 @@ class CreatePlayersTable extends Migration
     {
         Schema::create('players', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('photo_path')->nullable();
             $table->string('fname');
             $table->string('lname');
             $table->string('dob')->nullable();
             $table->string('nationality')->nullable();
             $table->string('preferred_hand')->nullable();
-            $table->string('position')->nullable();
             $table->string('status')->nullable();
             $table->integer('height')->nullable();
             $table->integer('weight')->nullable();

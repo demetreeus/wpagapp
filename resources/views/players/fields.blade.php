@@ -1,6 +1,10 @@
 <div id="profile" class="col-sm-12">
     <h2>Player Profile</h2>
     <!-- Fname Field -->
+    <div class="form-group col-sm-12">
+        {!! Form::label('photo', 'Player Photo:') !!}
+        <input type="file" name="photo" class="form-control" />
+    </div>
     <div class="form-group col-sm-6">
         {!! Form::label('fname', 'First name:') !!}
         {!! Form::text('fname', null, ['class' => 'form-control']) !!}
@@ -21,22 +25,46 @@
     <!-- Nationality Field -->
     <div class="form-group col-sm-6">
         {!! Form::label('nationality', 'Nationality:') !!}
-        {!! Form::text('nationality', null, ['class' => 'form-control']) !!}
+        <select class="form-control" name="nationality">
+            <option value="">Select Nationality</option>
+            @foreach($nationalities as $nat)
+                <option value="{{$nat->name}}">{{$nat->name}}</option>
+            @endforeach
+        </select>
     </div>
     <div>
-    <!-- Preferred Hand Field -->
-    <div class="form-group col-sm-6">
-        {!! Form::label('preferred_hand', 'Preferred Hand:') !!}
-        {!! Form::select('preferred_hand', ['none' => 'Select', 'right' => 'Right', 'left' => 'Left'], null, ['class' => 'form-control']) !!}
-    </div>
+
+        <div class="form-group col-sm-6 select-group">
+            {!! Form::label('spoken_languages', 'Spoken Languages:') !!}
+            <select class="form-control" name="language[]" data-placeholder="Choose a Language...">
+                <option value="">Select Language</option>
+                @foreach($languages as $lang)
+                    <option value="{{$lang->id}}">{{$lang->name}}</option>
+                @endforeach
+            </select>
+            <div class="placeholder"></div>
+            <div class="col-sm-12 text-right"><button style="position: relative;top: 10px; right: -15px" class="add-choice"><i class="fa fa-plus"></i> </button></div>
+        </div>
 
     <!-- Position Field -->
-    <div class="form-group col-sm-6">
+    <div class="form-group col-sm-6 select-group">
         {!! Form::label('position[]', 'Position:') !!}
-        {!! Form::select('position[]', ['none' => 'Select', 'goalkeeper' => 'Goal Keeper', 'point' => 'Point', 'center' => 'Center', 'wing' => 'Wing', 'post' => 'Post'], null, ['class' => 'form-control']) !!}
-        {!! Form::select('position[]', ['none' => 'Select', 'goalkeeper' => 'Goal Keeper', 'point' => 'Point', 'center' => 'Center', 'wing' => 'Wing', 'post' => 'Post'], null, ['class' => 'form-control']) !!}
-        {!! Form::select('position[]', ['none' => 'Select', 'goalkeeper' => 'Goal Keeper', 'point' => 'Point', 'center' => 'Center', 'wing' => 'Wing', 'post' => 'Post'], null, ['class' => 'form-control']) !!}
+        <select class="form-control" name="position[]">
+            <option value="">Select Position</option>
+            @foreach($positions as $pos)
+                <option value="{{$pos->id}}">{{$pos->name}}</option>
+            @endforeach
+        </select>
+        <div class="placeholder"></div>
+        <div class="col-sm-12 text-right"><button style="position: relative;top: 10px; right: -15px" class="add-choice"><i class="fa fa-plus"></i> </button></div>
     </div>
+
+        <!-- Preferred Hand Field -->
+        <div class="form-group col-sm-6">
+            {!! Form::label('preferred_hand', 'Preferred Hand:') !!}
+            {!! Form::select('preferred_hand', ['none' => 'Select', 'Right' => 'Right', 'Left' => 'Left'], null, ['class' => 'form-control']) !!}
+        </div>
+
     </div>
     <!-- Height Field -->
     <div class="form-group col-sm-6">
@@ -57,7 +85,7 @@
     </div>
 </div>
 
-<div id="skills">
+<div id="skills" class="col-sm-12">
     <h2>Player Skills</h2>
     <ul class="nav nav-tabs" role="tablist">
         <li role="presentation" class="active">
@@ -140,7 +168,7 @@
 
             <!-- Technical Swimming Technique Field -->
             <div class="form-group col-sm-6">
-                {!! Form::label('technical_swimming_technique', 'Technical Swimming Technique:') !!}
+                {!! Form::label('technical_swimming_technique', 'Swimming Technique:') !!}
                 {!! Form::number('technical_swimming_technique', null, ['class' => 'form-control']) !!}
             </div>
         </div>
@@ -188,3 +216,26 @@
     {!! Form::submit('Save', ['class' => 'btn btn-primary']) !!}
     <a href="{{ route('players.index') }}" class="btn btn-default">Cancel</a>
 </div>
+
+@push('scripts')
+    <script>
+        $("input[name='dob']").datetimepicker({
+            viewMode: 'years',
+            format: 'DD/MM/YYYY'
+        });
+
+        $('.add-choice').on('click', function(e){
+           e.preventDefault();
+           addChoice($(this));
+        });
+
+        function addChoice(el) {
+            var group = el.closest('.select-group');
+            var select = group.find('select').first().clone();
+            var position = group.find('.placeholder');
+
+            select.insertBefore(position);
+        }
+    </script>
+@endpush
+

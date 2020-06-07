@@ -9,6 +9,10 @@ use App\Http\Controllers\AppBaseController;
 use Illuminate\Http\Request;
 use Flash;
 use Response;
+use App\Models\Language;
+use App\Models\Nationality;
+use App\Models\Position;
+use DB;
 
 class PlayerController extends AppBaseController
 {
@@ -42,7 +46,11 @@ class PlayerController extends AppBaseController
      */
     public function create()
     {
-        return view('players.create');
+        $languages = Language::all();
+        $nationalities = Nationality::all();
+        $positions = Position::all();
+
+        return view('players.create', compact('languages', 'nationalities', 'positions'));
     }
 
     /**
@@ -56,7 +64,29 @@ class PlayerController extends AppBaseController
     {
         $input = $request->all();
 
+        if($request->file('photo')){
+            $input['photo_path'] = $request->file('photo')->store('public/photos');
+        }
+
         $player = $this->playerRepository->create($input);
+
+        foreach ($input['position'] as $pos) {
+            if(!empty($pos)) {
+                DB::table('player_positions')->insert([
+                  'player_id' => $player->id,
+                   'position_id' => intval($pos)
+                ]);
+            }
+        }
+
+        foreach ($input['language'] as $lang) {
+            if(!empty($lang)) {
+                DB::table('player_languages')->insert([
+                    'player_id' => $player->id,
+                    'language_id' => intval($lang)
+                ]);
+            }
+        }
 
         Flash::success('Player saved successfully.');
 

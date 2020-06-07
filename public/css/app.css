@@ -1,0 +1,13 @@
+.showPlayer .top {
+  display: flex;
+  flex-direction: row;
+}
+
+.showPlayer .top .photo {
+  margin-right: 40px;
+}
+
+.showPlayer .top .photo img {
+  max-width: 400px;
+}
+

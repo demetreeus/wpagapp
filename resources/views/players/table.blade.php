@@ -2,30 +2,30 @@
     <table class="table" id="players-table">
         <thead>
             <tr>
-                <th>Fname</th>
-        <th>Lname</th>
-        <th>Dob</th>
-        <th>Nationality</th>
+                <th>First Name</th>
+                <th>Last name</th>
+                <th>Date of Birth</th>
+                <th>Nationality</th>
                 <th>Position</th>
-        <th>Preferred Hand</th>
-        <th>Status</th>
-        <th>Height</th>
-        <th>Weight</th>
-                <th colspan="3">Action</th>
+                <th>Preferred Hand</th>
+                <th>Height</th>
+                <th>Weight</th>
+                <th>Status</th>
+                <th>Action</th>
             </tr>
         </thead>
         <tbody>
         @foreach($players as $player)
             <tr>
                 <td>{{ $player->fname }}</td>
-            <td>{{ $player->lname }}</td>
-            <td>{{ $player->dob }}</td>
-            <td>{{ $player->nationality }}</td>
+                <td>{{ $player->lname }}</td>
+                <td>{{ $player->dob }}</td>
+                <td>{{ $player->nationality }}</td>
                 <td>{{ $player->position }}</td>
-            <td>{{ $player->preferred_hand }}</td>
-            <td>{{ $player->status }}</td>
-            <td>{{ $player->height }}</td>
-            <td>{{ $player->weight }}</td>
+                <td>{{ $player->preferred_hand }}</td>
+                <td>{{ $player->height }}</td>
+                <td>{{ $player->weight }}</td>
+                <td>{{ $player->status }}</td>
                 <td>
                     {!! Form::open(['route' => ['players.destroy', $player->id], 'method' => 'delete']) !!}
                     <div class='btn-group'>
@@ -40,3 +40,11 @@
         </tbody>
     </table>
 </div>
+
+@push('scripts')
+<script>
+    $(document).ready( function () {
+        $('#players-table').DataTable();
+    } );
+</script>
+@endpush

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Eloquent as Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Storage;
 
 /**
  * Class Player
@@ -49,6 +50,7 @@ class Player extends Model
 
 
     public $fillable = [
+        'photo_path',
         'fname',
         'lname',
         'dob',
@@ -84,6 +86,7 @@ class Player extends Model
      */
     protected $casts = [
         'id' => 'integer',
+        'photo_path' => 'string',
         'fname' => 'string',
         'lname' => 'string',
         'dob' => 'string',
@@ -122,5 +125,49 @@ class Player extends Model
         'lname' => 'required',
     ];
 
+    public function positions()
+    {
+        return $this->belongsToMany('App\Models\Position', 'player_positions');
+    }
 
+    public function languages()
+    {
+        return $this->belongsToMany('App\Models\Language', 'player_languages');
+    }
+
+    public function getPositionAttribute()
+    {
+        $position = '';
+
+        $positions = $this->positions()->get();
+
+        if(!empty($positions)){
+            foreach ($positions as $pos) {
+                $position.= $pos->name.', ';
+            }
+            $position = substr($position, 0, -2);
+        }
+
+        return $position;
+    }
+
+    public function getLanguageAttribute()
+    {
+        $language = '';
+
+        $languages = $this->languages()->get();
+
+        if(!empty($languages)){
+            foreach ($languages as $lang) {
+                $language.= $lang->name.', ';
+            }
+            $language = substr($language, 0, -2);
+        }
+
+        return $language;
+    }
+
+    public function getPhotoAttribute() {
+        return asset(Storage::url($this->photo_path));
+    }
 }

@@ -1,3 +1,4 @@
+{{$player->photo}}
 <!-- Fname Field -->
 <div class="form-group">
     {!! Form::label('fname', 'Fname:') !!}

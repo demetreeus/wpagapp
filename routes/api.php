@@ -20,3 +20,17 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 
 Route::resource('players', 'PlayerAPIController');
+
+Route::resource('positions', 'PositionAPIController');
+
+Route::resource('languages', 'LanguageAPIController');
+
+Route::resource('nationalities', 'NationalityAPIController');
+
+Route::resource('player_positions', 'PlayerPositionAPIController');
+
+Route::resource('player_languages', 'PlayerLanguageAPIController');
+
+Route::resource('clubs', 'ClubAPIController');
+
+Route::resource('countries', 'CountryAPIController');
